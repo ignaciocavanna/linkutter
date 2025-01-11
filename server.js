@@ -18,10 +18,10 @@ dotenv.config();
 
 const db = new Pool({
   user: "postgres",
-  host: "2.tcp.eu.ngrok.io:19525",
+  host: "2.tcp.eu.ngrok.io",
   database: "link_shortener",
   password: "postgreadmin",
-  port: 5432,
+  port: 19525,
 });
 
 db.connect();
