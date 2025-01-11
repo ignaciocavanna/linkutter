@@ -1,0 +1,385 @@
+/* Stili di base */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background-image: url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='70' height='70' patternTransform='scale(2) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='hsla(240,6.7%,17.6%,1)'/><path d='M-4.8 4.44L4 16.59 16.14 7.8M32 30.54l-13.23 7.07 7.06 13.23M-9 38.04l-3.81 14.5 14.5 3.81M65.22 4.44L74 16.59 86.15 7.8M61 38.04l-3.81 14.5 14.5 3.81'  stroke-linecap='square' stroke-width='1' stroke='hsla(47,80.9%,61%,1)' fill='none'/><path d='M59.71 62.88v3h3M4.84 25.54L2.87 27.8l2.26 1.97m7.65 16.4l-2.21-2.03-2.03 2.21m29.26 7.13l.56 2.95 2.95-.55'  stroke-linecap='square' stroke-width='1' stroke='hsla(4.1,89.6%,58.4%,1)' fill='none'/><path d='M58.98 27.57l-2.35-10.74-10.75 2.36M31.98-4.87l2.74 10.65 10.65-2.73M31.98 65.13l2.74 10.66 10.65-2.74'  stroke-linecap='square' stroke-width='1' stroke='hsla(186.8,100%,41.6%,1)' fill='none'/><path d='M8.42 62.57l6.4 2.82 2.82-6.41m33.13-15.24l-4.86-5.03-5.03 4.86m-14-19.64l4.84-5.06-5.06-4.84'  stroke-linecap='square' stroke-width='1' stroke='hsla(258.5,59.4%,59.4%,1)' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>")
+}
+
+
+/* Contenitore per il titolo */
+.title-container {
+    text-align: center; /* Centra il contenuto orizzontalmente */
+}
+
+/* Stile per l'H1 */
+.title-container h1 {
+font-size: 2rem; /* Imposta la dimensione del font per l'H1 */
+display: inline-flex; /* Usa Flexbox per il contenuto */
+align-items: center; /* Allinea verticalmente immagine e testo */
+gap: 10px; /* Spazio tra il testo e l'immagine */
+}
+
+/* Stile per l'immagine */
+.title-container h1 img {
+height: 1em; /* Adatta l'altezza dell'immagine alla dimensione del font */
+vertical-align: middle; /* Allinea l'immagine al centro della linea del testo */
+}
+
+
+/* Contenitore del modulo */
+.form-container {
+    text-align: center;
+    background: #fff;
+    padding: 30px 60px; /* Aumentato il padding per form più grande */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Imposta la larghezza al 100% */
+    max-width: 500px; /* Aumenta la larghezza massima per il form */
+}
+
+/* Gruppo input */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Stile per il placeholder degli input */
+.input-group input::placeholder {
+    font-family: "Comic Neue", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Stile per il form principale */
+.input-group form {
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 600px; /* Aumenta la larghezza massima del form */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-group button {
+    font-family: "Comic Neue", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Stile per gli input */
+.input-group input[type="text"] {
+    width: 100%;
+    padding: 12px; /* Aumentato padding per gli input */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Stile per il pulsante di invio */
+.input-group button[type="submit"] {
+    padding: 12px 24px; /* Aumentato padding per il pulsante */
+    font-size: 18px; /* Aumentata la dimensione del font per il pulsante */
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.input-group button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Stile per i paragrafi */
+.input-group p {
+    margin: 5px 0;
+    font-size: 16px; /* Aumentata la dimensione del font per i paragrafi */
+    color: #666;
+}
+
+/* Stile per i link nella lista */
+.input-group li {
+    list-style: none;
+    margin: 1px 0;
+}
+
+.input-group li button {
+    color: #007BFF;
+    font-size: 16px; /* Aumentata la dimensione del font per i link */
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.input-group li button:hover {
+    color: #0056b3;
+    text-decoration: none;
+}
+
+/* Centratura del contenuto */
+li, form, p {
+    text-align: center;
+}
+
+/* Media Query per schermi più piccoli (mobile) */
+@media (max-width: 600px) {
+    .form-container {
+        padding: 20px 30px;
+        width: 90%;
+        max-width: 500px;
+        margin: 0 10px;
+    }
+
+    .input-group form {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+
+    .input-group input[type="text"] {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .input-group button[type="submit"] {
+        padding: 12px 24px;
+        font-size: 16px;
+    }
+
+    .input-group p {
+        font-size: 14px;
+    }
+
+    .input-group li button {
+        font-size: 14px;
+    }
+}
+
+/* Contenitore per l'allineamento flessibile */
+.input-button-wrapper {
+    display: flex;
+    align-items: center; /* Allinea verticalmente pulsante e input */
+    margin-bottom: 15px; /* Distanza dal resto del modulo */
+    width: 100%; /* Occupa tutta la larghezza disponibile */
+}
+
+/* Stile per il pulsante */
+.input-button-wrapper > button {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #007BFF;
+    color: white;
+    border: 2px solid #007BFF;
+    border-right: none; /* Unisce visivamente al campo di input */
+    border-radius: 4px 0 0 4px; /* Arrotonda angoli a sinistra */
+    cursor: pointer;
+    line-height: 1; /* Evita disallineamenti verticali */
+    height: 100%; /* Adatta l'altezza al campo di input */
+    box-sizing: border-box; /* Include padding e bordo */
+    display: inline-flex; /* Allinea il contenuto orizzontalmente */
+    align-items: center; /* Allinea verticalmente il contenuto */
+}
+
+/* Hover per il pulsante */
+.input-button-wrapper > button:hover {
+    background-color: #0056b3;
+}
+
+/* Stile per l'input */
+.input-button-wrapper > input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 0 4px 4px 0; /* Arrotonda angoli a destra */
+    outline: none;
+    flex: 1; /* Occupa tutto lo spazio disponibile */
+    box-sizing: border-box;
+    margin-bottom: 0; /* Rimuove il margine */
+}
+
+.gsi-material-button {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -webkit-appearance: none;
+    background-color: WHITE;
+    background-image: none;
+    border: 1px solid #747775;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #1f1f1f;
+    cursor: pointer;
+    font-family: 'Roboto', arial, sans-serif;
+    font-size: 14px;
+    height: 40px;
+    letter-spacing: 0.25px;
+    outline: none;
+    overflow: hidden;
+    padding: 0 12px;
+    position: relative;
+    text-align: center;
+    -webkit-transition: background-color .218s, border-color .218s, box-shadow .218s;
+    transition: background-color .218s, border-color .218s, box-shadow .218s;
+    vertical-align: middle;
+    white-space: nowrap;
+    width: auto;
+    max-width: 400px;
+    min-width: min-content;
+}
+
+.gsi-material-button .gsi-material-button-icon {
+    height: 20px;
+    margin-right: 12px;
+    min-width: 20px;
+    width: 20px;
+}
+
+.gsi-material-button .gsi-material-button-content-wrapper {
+    -webkit-align-items: center;
+    align-items: center;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    height: 100%;
+    justify-content: space-between;
+    position: relative;
+    width: 100%;
+}
+
+.gsi-material-button .gsi-material-button-contents {
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+    font-family: 'Roboto', arial, sans-serif;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+}
+
+.gsi-material-button .gsi-material-button-state {
+    -webkit-transition: opacity .218s;
+    transition: opacity .218s;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.gsi-material-button:disabled {
+    cursor: default;
+    background-color: #ffffff61;
+    border-color: #1f1f1f1f;
+}
+
+.gsi-material-button:disabled .gsi-material-button-contents {
+    opacity: 38%;
+}
+
+.gsi-material-button:disabled .gsi-material-button-icon {
+    opacity: 38%;
+}
+
+.gsi-material-button:not(:disabled):active .gsi-material-button-state, 
+.gsi-material-button:not(:disabled):focus .gsi-material-button-state {
+    background-color: #303030;
+    opacity: 12%;
+}
+
+.gsi-material-button:not(:disabled):hover {
+    -webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
+}
+
+.gsi-material-button:not(:disabled):hover .gsi-material-button-state {
+    background-color: #303030;
+    opacity: 8%;
+}
+
+.google-button {
+    position: absolute;
+    top: 5%;
+    right: 1%;
+}
+.hidden {
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* Stili caratteri */
+.comic-neue-light {
+    font-family: "Comic Neue", serif;
+    font-weight: 300;
+    font-style: normal;
+  }
+  
+  .comic-neue-regular {
+    font-family: "Comic Neue", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .comic-neue-bold {
+    font-family: "Comic Neue", serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  .comic-neue-light-italic {
+    font-family: "Comic Neue", serif;
+    font-weight: 300;
+    font-style: italic;
+  }
+  
+  .comic-neue-regular-italic {
+    font-family: "Comic Neue", serif;
+    font-weight: 400;
+    font-style: italic;
+  }
+  
+  .comic-neue-bold-italic {
+    font-family: "Comic Neue", serif;
+    font-weight: 700;
+    font-style: italic;
+  }
+
