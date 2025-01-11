@@ -68,7 +68,6 @@ app.get("/", async (req, res) => {
         links: links,
         isAuthenticated: req.isAuthenticated(),
         user: req.user,
-        message: 'Whant private ? Login with Google'
     })
 }); 
 
@@ -86,7 +85,7 @@ passport.use(
 
     clientID: '1020954210851-jipaikdchc6sme13mi6s64tqg6pj5nu3.apps.googleusercontent.com',
     clientSecret: "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",
-    callbackURL: "http://localhost:3000/auth/google/secrets",
+    callbackURL: "https://linkutter.onrender.com//auth/google/secrets",
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
   }, async (accessToken, refreshToken, profile, cb) => {
     try {
