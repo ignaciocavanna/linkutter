@@ -17,3 +17,18 @@ fetch('https://api.ipify.org?format=json')
     console.error('Error:', error);
     document.getElementById("ipAddress").innerText = "Failed to fetch IP address.";
   });
+
+
+  document.getElementById("dashboardBtn").addEventListener("click", async () => {
+    try {
+      const response = await fetch("/dashboard", {
+        method: "POST", // Cambia in "POST" se necessario
+        headers: {
+          "Content-Type": "application/json", // Imposta il tipo di contenuto
+        },
+      });
+    } catch (error) {
+      console.error("Errore di rete:", error);
+      alert("Si è verificato un errore di rete.");
+    }
+  });

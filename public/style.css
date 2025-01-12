@@ -160,6 +160,18 @@ li, form, p {
     }
 }
 
+/* Stili per il pulsante dashboard */
+.dashboard {
+    padding: 12px 24px; /* Aumentato padding per il pulsante */
+    font-size: 18px; /* Aumentata la dimensione del font per il pulsante */
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
 /* Contenitore per l'allineamento flessibile */
 .input-button-wrapper {
     display: flex;
@@ -307,7 +319,7 @@ li, form, p {
     opacity: 8%;
 }
 
-.google-button {
+.LoginDashboardButton {
     position: absolute;
     top: 5%;
     right: 1%;

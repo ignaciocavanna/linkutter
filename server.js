@@ -70,9 +70,18 @@ app.get("/", async (req, res) => {
     short_link: "",
     long_link: "",
     links: links,
-    isAuthenticated: req.isAuthenticated(),
+    isAuthenticated: true,
     user: req.user,
   });
+});
+
+app.post("/dashboard", (req, res) => {
+  log("Richiesta di dashboard");
+  res.render("dashboard.ejs");
+});
+
+app.get("/dashboard", (req, res) => {
+  res.render("dashboard.ejs");
 });
 
 // GET: Login con Google
