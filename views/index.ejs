@@ -48,6 +48,7 @@
                 <button type="submit">Kut The Link <img src="/favicon.ico" height="1" alt="logo"></button>
             </form>
             <h2 class="comic-neue-bold"><%= isAuthenticated ? user + ' Personal Kutted Links' : 'Public Kutted Links'%></h2>
+            <h1><%= isAuthenticated ? "vero" : "falso" %></h1>
             <%  links.forEach(element => { %>
                 <form method="get" action="/<%=element.short_link%>">
                     <li><button style="border: none; background: none;">linkutter.onrender.com/<%=element.short_link%></button></li>
