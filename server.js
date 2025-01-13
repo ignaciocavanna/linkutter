@@ -70,7 +70,7 @@ app.get("/", async (req, res) => {
     short_link: "",
     long_link: "",
     links: links,
-    isAuthenticated: isAuthenticated(),
+    isAuthenticated: req.isAuthenticated(),
     user: req.user,
   });
 });
