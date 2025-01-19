@@ -1,3 +1,4 @@
+/*
 fetch('https://api.ipify.org?format=json')
   .then(response => response.json())
   .then(data => {
@@ -18,7 +19,7 @@ fetch('https://api.ipify.org?format=json')
     document.getElementById("ipAddress").innerText = "Failed to fetch IP address.";
   });
 
-
+  */
   document.getElementById("dashboardBtn").addEventListener("click", async () => {
     try {
       const response = await fetch("/dashboard", {

@@ -32,6 +32,11 @@
             </button>
         </a>
     </div>
+    <div class="LoginDashboardButton dashboardBtn <%= isAuthenticated ? '' : 'hidden' %>">
+        <button onclick="window.location.href='/dashboard'">Dashboard
+
+        </button>
+    </div>
     <div class="form-container">
         <div class="input-group">
             <div class="title-container">
@@ -50,11 +55,11 @@
             <h2 class="comic-neue-bold"><%= isAuthenticated ? user + ' Personal Kutted Links' : 'Public Kutted Links'%></h2>
             <%  links.forEach(element => { %>
                 <form method="get" action="/<%=element.short_link%>">
-                    <li><button style="border: none; background: none;">linkutter.onrender.com/<%=element.short_link%></button></li>
+                    <li><button  style="border: none; background: none;">linkutter.onrender.com/<%=element.short_link%></button></li>
                 </form>
             <% }); %>
         </div>
     </div>
-    <script src="/script.js"></script>
+    <script src="/index.js"></script>
 </body>
 </html>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/dashboard.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Mogra&display=swap" rel="stylesheet">
     <script src="/dashboard.js"></script>
     <title>Document</title>
 </head>
@@ -15,59 +16,33 @@
       </header>
       <div class="nav-btn">Menu</div>
       <div class="container">
-        
-        <div class="sidebar">
-          <nav>
-            <a href="/">Link<span>utter</span><img src="/favicon.ico" height="40px" alt="logo"></a>
-            <ul>
-              <li class="active"><a href="#">Dashboard</a></li>
-              <a href="/"><li>Home</li></a>
-              <li hidden><a href="#">About</a></li>
-              <li hidden><a href="#">Social</a></li>
-              <li hidden><a href="#">Contact</a></li>
-            </ul>
-          </nav>
-        </div>
-    
+
+       <%- include('./partials/sidebar.ejs') %>
+   
         <div class="main-content">
           <h1>Dashboard</h1>
           <p>Your links</p>
+          <% data.forEach(element => { %>
           <div class="panel-wrapper">
             <div class="panel-head">
-              linkutter.onrender.com/GoogleImmagini
+              <a href="/<%element.short_link%>">
+                linkutter.onrender.com/<%=element.short_link%>
+              </a>
             </div>
             <div class="panel-body">
-                IP: 93.42.184.124 ||
-                Country: Italy || 
-                Browser: Chrome ||
-                OS: Windows ||
-                device: Desktop
-                <br>
-                IP: 98.52.72.124 ||
-                Country: USA || 
-                Browser: Safari ||
-                OS: MacOS ||
-                device: Desktop
-                <br>
+                <p><span>LONG LINK:</span> <%= element.long_link %></p>
+                <p><span>CREATED AT:</span> <%= element.formatted_created %></p>
+                <p><span>OPENED AT:</span> <%= element.formatted_open %></p>
+                <p><span>BY PUBLIC IP:</span> <%= element.ip %></p>
+                <p><span>BY USER:</span> <%= element.username %></p>
             </div>
           </div>
-          <div class="panel-wrapper">
-            <div class="panel-head">
-              News
-            </div>
-            <div class="panel-body">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam fugiat culpa quia possimus molestiae id sapiente ad eveniet, aliquid, eum sint fuga eius, ratione suscipit ut minus voluptates dicta nesciunt.
-            </div>
-          </div>
-          <div class="panel-wrapper">
-            <div class="panel-head">
-              News
-            </div>
-            <div class="panel-body">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam fugiat culpa quia possimus molestiae id sapiente ad eveniet, aliquid, eum sint fuga eius, ratione suscipit ut minus voluptates dicta nesciunt. Totam fugiat culpa quia possimus molestiae id sapiente ad eveniet, aliquid, eum sint fuga eius, ratione suscipit ut minus voluptates dicta nesciunt.
-            </div>
+          <% }); %>
           </div>
         </div>
       </div>
 </body>
+<script>
+  document.getElementById('dashboard').classList.add('active');
+</script>
 </html>

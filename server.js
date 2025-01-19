@@ -20,6 +20,14 @@ dotenv.config();
 
 // Configurazione del database PostgreSQL
 const db = new Pool({
+  //LOCAL DEV CONFIG
+  //user: "postgres",
+  //host: "localhost",
+  //database: "link_shortener",
+  //password: "postgreadmin",
+  //port: "5432",
+
+  //WAN PRODUCTION CONFIG
   connectionString: 'postgres://postgre:tFxzwaxdKRZU2Bdop44spXJge1niA59O@dpg-cu17k85svqrc73eoq3ug-a:5432/link_shortener_3qfh'
 });
 
@@ -64,24 +72,88 @@ app.get("/", async (req, res) => {
   const loggedUser = req.user;
   links = await getLinksFromDB(loggedUser); // Recupera i link dal DB
   const userIp = req.connection.remoteAddress; // Indirizzo IP dell'utente
-  log(`Utente: ${userIp}`);
 
   res.render("index.ejs", {
-    short_link: "",
-    long_link: "",
     links: links,
-    isAuthenticated: true,
+    isAuthenticated: req.isAuthenticated(),
     user: req.user,
   });
 });
 
-app.post("/dashboard", (req, res) => {
-  log("Richiesta di dashboard");
-  res.render("dashboard.ejs");
+// GET: Dashboard personale con link
+app.get("/dashboard", async (req, res) => {
+  const loggedUser = req.user;
+
+  try {
+    if (loggedUser) {
+
+      const data = await db.query(
+      "SELECT l.user_id, l.short_link, l.long_link, ld.ip, ld.username, TO_CHAR(l.created_at, 'DD-MM-YYYY HH24:MI') AS formatted_created, TO_CHAR(ld.opened_at, 'DD-MM-YYYY HH24:MI') AS formatted_open FROM links l INNER JOIN links_data ld ON l.id = ld.link_id WHERE l.user_id = (SELECT id FROM users WHERE email = $1)",
+      [req.user]);
+
+      res.render("dashboard.ejs", {data: data.rows});
+
+    } else { res.redirect("/"); }
+
+  } catch (error) {
+    console.log(error);   
+  }
+
 });
 
-app.get("/dashboard", (req, res) => {
-  res.render("dashboard.ejs");
+// GET: Pagina con i link
+app.get("/dashboard/details", async (req, res) => {
+
+  try {
+    if (req.isAuthenticated()) {
+      const data = await db.query(
+        "SELECT l.user_id, l.short_link, l.long_link, ld.ip, ld.username, TO_CHAR(l.created_at, 'DD-MM-YYYY HH24:MI') AS formatted_created, TO_CHAR(ld.opened_at, 'DD-MM-YYYY HH24:MI') AS formatted_open FROM links l INNER JOIN links_data ld ON l.id = ld.link_id"
+      );
+  
+      res.render("details.ejs", {data: data.rows});
+    } else {
+      res.redirect("/");
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+
+});
+
+// GET: Pagina per la gestione del profilo personale
+app.get("/dashboard/profile", (req, res) => {
+  try {
+    if (req.isAuthenticated()) {
+      res.render("profile.ejs", { user: req.user });
+    } else {
+      res.redirect("/");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+});
+
+// GET: Pagina dettaglio del link
+app.get("/dashboard/details/:short_link", async (req, res) => {
+
+  try {
+    if (req.isAuthenticated()) {
+      const link = await db.query("SELECT * FROM links WHERE short_link = $1", [req.params.short_link]);
+      const data = await db.query("SELECT * FROM links_data WHERE link_id = $1", [link.rows[0].id]);
+      console.log(data.rows);
+      console.log(link.rows[0]);
+      
+
+      
+      res.render("linkDetails.ejs", {link: link.rows[0], data: data.rows});
+    } else {
+      res.redirect("/");
+    }
+  } catch (error) {
+    console.log(error);    
+  }
 });
 
 // GET: Login con Google
@@ -100,12 +172,31 @@ passport.use(
       clientID:
         "1020954210851-jipaikdchc6sme13mi6s64tqg6pj5nu3.apps.googleusercontent.com",
       clientSecret: "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",
-      callbackURL: "https://linkutter.onrender.com/auth/google/secrets",
+      callbackURL: "http://linkutter.onrender.com/auth/google/secrets",
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     },
     async (accessToken, refreshToken, profile, cb) => {
       try {
-        console.log(profile); // Log del profilo Google
+        const userData = profile._json;
+        const userExisting = await db.query(
+          "SELECT email FROM users WHERE email = $1",
+          [userData.email]
+        );
+
+        if (userExisting.rows.length > 0) {
+          await db.query(
+            "UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE email = $1",
+            [userData.email]
+          );
+          return cb(null, profile.email);
+
+        } else {
+          await db.query(
+            "INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3)",
+            [userData.name, userData.email, "GoogleOAuth"]
+          );
+        }
+
         return cb(null, profile.email);
       } catch (error) {
         console.log(error);
@@ -130,25 +221,26 @@ app.get("/loginError", (req, res) => {
 
 // POST: Salva l'indirizzo IP dell'utente
 app.post("/save-ip", async (req, res) => {
-  const now = new Date();
-  const time = now.toTimeString().split(" ")[0]; // Ottiene l'orario corrente (HH:MM:SS)
-  const newUserData = {
-    ip: req.body.ip,
-    user: req.user ? req.user : "Anonimo",
-    time: time,
-  };
+  const user = req.user ? req.user : "Anonimo";  
+  const link_id = await db.query("SELECT id FROM links WHERE short_link = $1", [req.body.link]);
 
-  console.log(newUserData);
-  saveDataIntoJson(newUserData); // Salva i dati nel file JSON
+  await db.query(
+    "INSERT INTO links_data (link_id, ip, username, opened_at) VALUES ($1, $2, $3, CURRENT_TIMESTAMP)",
+    [link_id.rows[0].id, req.body.ip, user]
+  );
 });
 
 // POST: Aggiunge un nuovo link
 app.post("/submit-link", async (req, res) => {
   try {
     const data = req.body;
+    
+    const findUserInDB = await db.query("SELECT id FROM users WHERE email = $1", [req.user]);
+    const user_id = findUserInDB.rows[0].id;
+    
     await db.query(
-      "INSERT INTO links (long_link, short_link, user_email) VALUES ($1, $2, $3)",
-      [data.long_link, data.short_link, req.user]
+      "INSERT INTO links (user_id, short_link, long_link, created_at) VALUES ($1, $2, $3, CURRENT_TIMESTAMP)",
+      [user_id, data.short_link, data.long_link]
     );
 
     res.redirect("/", 200, {
@@ -172,9 +264,10 @@ app.get("/:action", async (req, res) => {
 
     for (let i = 0; i < data.length; i++) {
       if (action === data[i].short_link) {
-        res.render("redirectPage.ejs", { link: data[i].long_link });
+        res.render("redirectPage.ejs", {short_link: data[i].short_link, long_link: data[i].long_link });
       }
     }
+    
   } catch (error) {
     console.log(error);
   }
@@ -217,14 +310,20 @@ passport.use(
 async function getLinksFromDB(user) {
   try {
     if (user !== undefined) {
-      const res = await db.query(
-        "SELECT * FROM links WHERE user_email = $1",
+      const userId = await db.query(
+        "SELECT id FROM users WHERE email = $1",
         [user]
       );
+
+      const res = await db.query(
+        "SELECT * FROM links WHERE user_id = $1",
+        [userId.rows[0].id]
+      );
+
       return res.rows;
     } else {
       const res = await db.query(
-        "SELECT * FROM links WHERE user_email IS NULL"
+        "SELECT * FROM links WHERE user_id IS NULL"
       );
       return res.rows;
     }
@@ -234,7 +333,15 @@ async function getLinksFromDB(user) {
   }
 }
 
+//Data e ora
+function time() {
+  const now = new Date();
+  const time = now.toTimeString().split(" ")[0]; // Ottiene l'orario corrente (HH:MM:SS)
+  return time;
+}
+
 // Aggiorna il file JSON con nuovi dati
+/*
 function saveDataIntoJson(data) {
   const filePath = path.join(__dirname, "src", "data.json");
 
@@ -274,7 +381,7 @@ function saveDataIntoJson(data) {
       }
     );
   });
-}
+}*/ 
 
 // Configura la serializzazione e deserializzazione di Passport
 passport.serializeUser((user, cb) => {

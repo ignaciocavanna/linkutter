@@ -86,16 +86,16 @@ vertical-align: middle; /* Allinea l'immagine al centro della linea del testo */
     padding: 12px 24px; /* Aumentato padding per il pulsante */
     font-size: 18px; /* Aumentata la dimensione del font per il pulsante */
     color: #fff;
-    background-color: #007BFF;
+    background-color: #1CB0F6;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.input-group button[type="submit"]:hover {
-    background-color: #0056b3;
-}
+.input-group button[type="submit"]:hover:not(:disabled) {
+    filter: brightness(1.1);
+   }
 
 /* Stile per i paragrafi */
 .input-group p {
@@ -117,10 +117,10 @@ vertical-align: middle; /* Allinea l'immagine al centro della linea del testo */
     cursor: pointer;
 }
 
-.input-group li button:hover {
-    color: #0056b3;
+.input-group li button:hover:not(:disabled) {
+    filter: brightness(1.1);
     text-decoration: none;
-}
+   }
 
 /* Centratura del contenuto */
 li, form, p {
@@ -184,9 +184,9 @@ li, form, p {
 .input-button-wrapper > button {
     padding: 12px 20px;
     font-size: 16px;
-    background-color: #007BFF;
+    background-color: #1CB0F6;
     color: white;
-    border: 2px solid #007BFF;
+    border: 2px solid #1CB0F6;
     border-right: none; /* Unisce visivamente al campo di input */
     border-radius: 4px 0 0 4px; /* Arrotonda angoli a sinistra */
     cursor: pointer;
@@ -198,9 +198,9 @@ li, form, p {
 }
 
 /* Hover per il pulsante */
-.input-button-wrapper > button:hover {
-    background-color: #0056b3;
-}
+.input-button-wrapper > button:hover:not(:disabled) {
+    filter: brightness(1.1);
+   }
 
 /* Stile per l'input */
 .input-button-wrapper > input {
@@ -328,33 +328,70 @@ li, form, p {
     display: none;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* From Uiverse.io by cssbuttons-io */ 
+.dashboardBtn button {
+    appearance: button;
+    background-color: #1899D6;
+    border: solid transparent;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .8px;
+    line-height: 20px;
+    margin: 0;
+    outline: none;
+    overflow: visible;
+    padding: 13px 19px;
+    text-align: center;
+    text-transform: uppercase;
+    touch-action: manipulation;
+    transform: translateZ(0);
+    transition: filter .2s;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+   }
+   
+   .dashboardBtn button:after {
+    background-clip: padding-box;
+    background-color: #1CB0F6;
+    border: solid transparent;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    bottom: -4px;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+   }
+   
+   .dashboardBtn button:main, button:focus {
+    user-select: auto;
+   }
+   
+   .dashboardBtn button:hover:not(:disabled) {
+    filter: brightness(1.1);
+   }
+   
+   .dashboardBtn button:disabled {
+    cursor: auto;
+   }
+   
+   .dashboardBtn button:active:after {
+    border-width: 0 0 0px;
+   }
+   
+   .dashboardBtn button:active {
+    padding-bottom: 10px;
+   }
 
 
 

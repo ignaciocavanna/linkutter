@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirect</title>
-</head>
-<body onload="redirectToExternalLink()">
-  <script>
-    function redirectToExternalLink() {
-      window.location.href = '<%=link%>'; // Inserisci qui il link esterno
-    }
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/redirectPage.js"></script>
+    <script>
+      const link = "<%= long_link %>"
+      const short_link = "<%= short_link %>"
+    </script>
+    <title>Redirect</title>
+  </head>
+  <body onload="fetchData(link, short_link)">
+    <h3>Redirecting...</h3>
+  </body>
 </html>
