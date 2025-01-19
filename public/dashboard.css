@@ -6,7 +6,7 @@
   box-sizing: border-box;
 }
 body, html {
-  font-family: 'Lato', sans-serif;
+  font-family: 'comic-neue-regular', sans-serif;
   font-size: 20px;
   height: 100%;
   position: relative;
@@ -173,6 +173,7 @@ header .logo span {
   padding: 10px 10px;
   border: 1px solid #00A5F2;
   border-radius: 10px 10px 0px 0px;
+  word-wrap: break-word;
 }
 .main-content .panel-wrapper .panel-body {
   padding: 20px 10px;

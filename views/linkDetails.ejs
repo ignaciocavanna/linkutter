@@ -9,25 +9,44 @@
 </head>
 <body>
     <%- include('./partials/sidebar.ejs') %>
-    <% const count = data.filter(item => item.ip === '93.48.224.106').length; %>
-    <% console.log(count)%>
+    
+    <% const ipMap = [];
+
+    data.forEach(item => {
+    const ip = item.ip;
+    if (ipMap[ip]) {
+        ipMap[ip].count++;
+    } else {
+        ipMap[ip] = { ...item, count: 1 };
+    }
+    }); %>
+
+
     <div class="main-content">
         <h1>Detailed Link</h1>
         <p><%= link.short_link %></p>
         <div class="panel-wrapper">
             <div style="border-radius: 10px;" class="panel-head">
-                <p><img src="/favicon.ico" width="15px" alt="original_link_icon">Kutted link:</p>linkutter.onrender.com/<%=link.short_link%>
-                <p><img src="/native.png" width="15px" alt="original_link_icon">Original link:</p><%= link.long_link %>
+                <p>
+                    <img src="/favicon.ico" width="15px" alt="original_link_icon">Kutted link:
+                </p>linkutter.onrender.com/<%=link.short_link%>
+                <p style="margin-top: 20px">
+                    <img src="/native.png" width="15px" alt="original_link_icon">Original link:
+                </p><span><%= link.long_link %></span>
             </div>
         </div>
-        <div class="panel-wrapper">
-            <div style="border-radius: 15px; " class="panel-body">
-                <p><span>BY PUBLIC IP:</span> <%= data[0].ip %></p>
-                <p><span>BY USER:</span> <%= data[0].username %></p>
-                <p><span>OPENED LAST TIME:</span> <%= data[2].opened_at %></p>
-                <p><span>CLICKS:</span> <%= count %></p>
+        <% Object.entries(ipMap).forEach(([ip, data]) => { %>
+            <div class="panel-wrapper">
+                <div class="panel-body">
+                    <p><span>IP:</span> <%= ip %></p>
+                    <p><span>USERNAME:</span> <%= data.username || 'N/A' %></p>
+                    <p><span>OPENED AT:</span> <%= data.formatted_opening || 'N/A' %></p>
+                    <p><span>CLICKS:</span> <%= data.count %></p>
+                </div>
             </div>
-        </div>
+        <% }); %>
+
+
     </div>
 </body>
 </html>

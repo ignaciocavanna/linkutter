@@ -88,7 +88,7 @@ app.get("/dashboard", async (req, res) => {
     if (loggedUser) {
 
       const data = await db.query(
-      "SELECT l.user_id, l.short_link, l.long_link, ld.ip, ld.username, TO_CHAR(l.created_at, 'DD-MM-YYYY HH24:MI') AS formatted_created, TO_CHAR(ld.opened_at, 'DD-MM-YYYY HH24:MI') AS formatted_open FROM links l INNER JOIN links_data ld ON l.id = ld.link_id WHERE l.user_id = (SELECT id FROM users WHERE email = $1)",
+      "SELECT l.user_id, l.short_link, l.long_link, ld.ip, ld.username, TO_CHAR(l.created_at, 'DD-MM-YYYY HH24:MI') AS formatted_created, TO_CHAR(ld.opened_at, 'DD-MM-YYYY HH24:MI') AS formatted_open FROM links l INNER JOIN links_data ld ON l.id = ld.link_id WHERE l.user_id = (SELECT id FROM users WHERE email = $1) ORDER BY opened_at DESC",
       [req.user]);
 
       res.render("dashboard.ejs", {data: data.rows});
@@ -102,15 +102,21 @@ app.get("/dashboard", async (req, res) => {
 });
 
 // GET: Pagina con i link
-app.get("/dashboard/details", async (req, res) => {
+app.get("/dashboard/links", async (req, res) => {
 
+  const loggedUser = req.user;
+  const userId = await db.query("SELECT id FROM users WHERE email = ($1)",    
+    [loggedUser]
+   )
+  
   try {
     if (req.isAuthenticated()) {
       const data = await db.query(
-        "SELECT l.user_id, l.short_link, l.long_link, ld.ip, ld.username, TO_CHAR(l.created_at, 'DD-MM-YYYY HH24:MI') AS formatted_created, TO_CHAR(ld.opened_at, 'DD-MM-YYYY HH24:MI') AS formatted_open FROM links l INNER JOIN links_data ld ON l.id = ld.link_id"
+        "SELECT short_link, long_link, TO_CHAR(links.created_at, 'DD-MM-YYYY HH24:MI') AS formatted_created FROM links WHERE user_id = $1",
+        [userId.rows[0].id]
       );
   
-      res.render("details.ejs", {data: data.rows});
+      res.render("links.ejs", {data: data.rows});
     } else {
       res.redirect("/");
     }
@@ -135,17 +141,15 @@ app.get("/dashboard/profile", (req, res) => {
 
 });
 
+//GET: 
+
 // GET: Pagina dettaglio del link
-app.get("/dashboard/details/:short_link", async (req, res) => {
+app.get("/dashboard/links/:short_link", async (req, res) => {
 
   try {
     if (req.isAuthenticated()) {
       const link = await db.query("SELECT * FROM links WHERE short_link = $1", [req.params.short_link]);
-      const data = await db.query("SELECT * FROM links_data WHERE link_id = $1", [link.rows[0].id]);
-      console.log(data.rows);
-      console.log(link.rows[0]);
-      
-
+      const data = await db.query("SELECT *, TO_CHAR(opened_at, 'DD-MM-YYYY HH24:MI') AS formatted_opening FROM links_data WHERE link_id = $1", [link.rows[0].id]);
       
       res.render("linkDetails.ejs", {link: link.rows[0], data: data.rows});
     } else {
@@ -256,7 +260,6 @@ app.post("/submit-link", async (req, res) => {
 // GET: Redirect per un link specifico
 app.get("/:action", async (req, res) => {
   const action = req.params.action; // Nome dell'azione
-  console.log(`Azione richiesta: ${action}`);
 
   try {
     let link = await db.query("SELECT * FROM links");
@@ -339,49 +342,6 @@ function time() {
   const time = now.toTimeString().split(" ")[0]; // Ottiene l'orario corrente (HH:MM:SS)
   return time;
 }
-
-// Aggiorna il file JSON con nuovi dati
-/*
-function saveDataIntoJson(data) {
-  const filePath = path.join(__dirname, "src", "data.json");
-
-  fs.readFile(filePath, "utf8", (err, fileContent) => {
-    let existingData = [];
-
-    if (err) {
-      if (err.code === "ENOENT") {
-        console.log("File non trovato, verrà creato un nuovo file.");
-      } else {
-        console.error("Errore durante la lettura del file:", err);
-        return;
-      }
-    } else {
-      try {
-        existingData = fileContent.trim()
-          ? JSON.parse(fileContent)
-          : [];
-      } catch (parseErr) {
-        console.error("Errore durante il parsing del file JSON:", parseErr);
-        return;
-      }
-    }
-
-    const updatedData = [...existingData, data];
-
-    fs.writeFile(
-      filePath,
-      JSON.stringify(updatedData, null, 2),
-      "utf8",
-      (writeErr) => {
-        if (writeErr) {
-          console.error("Errore durante la scrittura del file:", writeErr);
-        } else {
-          console.log("Dati salvati correttamente!");
-        }
-      }
-    );
-  });
-}*/ 
 
 // Configura la serializzazione e deserializzazione di Passport
 passport.serializeUser((user, cb) => {

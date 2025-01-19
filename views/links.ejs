@@ -11,16 +11,16 @@
     <%- include('./partials/sidebar.ejs') %>
 
     <div class="main-content">
-        <h1>Details</h1>
+        <h1>Links</h1>
         <p>Your links</p>
 
 
         <% data.forEach(element => { %>
         <div class="panel-wrapper">
-            <a href="/dashboard/details/<%=element.short_link%>">
+            <a href="/dashboard/links/<%=element.short_link%>">
                 <div style="border-radius: 10px;" class="panel-head">
                     <p><img src="/favicon.ico" width="15px" alt="original_link_icon">Kutted link:</p>linkutter.onrender.com/<%=element.short_link%>
-                    <p><img src="/native.png" width="15px" alt="original_link_icon">Original link:</p><%= element.long_link %>
+                    
                 </div>
             </a>
         </div>
@@ -28,6 +28,6 @@
         </div>
 </body>
 <script>
-    document.getElementById('details').classList.add('active');
+    document.getElementById('links').classList.add('active');
 </script>
 </html>
