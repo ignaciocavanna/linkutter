@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css"/>
+    <link rel="stylesheet" href="/index.css"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Mogra&display=swap" rel="stylesheet">
@@ -11,6 +11,7 @@
     <title>LinKutter</title>
 </head>
 <body>
+    <div class="appContainer">
     <div class="LoginDashboardButton <%= isAuthenticated ? 'hidden' : '' %>">
         <a href="/auth/google" role="button">
             <button class="gsi-material-button">
@@ -34,6 +35,11 @@
     <div class="LoginDashboardButton dashboardBtn <%= isAuthenticated ? '' : 'hidden' %>">
         <button onclick="window.location.href='/dashboard'">Dashboard</button>
     </div>
+    <!--
+    <div class="LoginDashboardButton dashboardBtn <%= isAuthenticated ? '' : 'hidden' %>">
+        <button onclick="window.location.href='/dashboard'">Dashboard</button>
+    </div>
+    -->
     <div class="form-container">
         <div class="input-group">
             <div class="title-container">
@@ -57,5 +63,11 @@
             <% }); %>
         </div>
     </div>
+
+    <div class="<%= !isAuthenticated ? 'hidden' : ''%>">
+        <%- include('./partials/bottombar') %>
+    </div>
+
+</div>
 </body>
 </html>

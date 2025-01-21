@@ -8,6 +8,7 @@
     <title>Detailed Link</title>
 </head>
 <body>
+    <%- include('./partials/header.ejs') %>
     <%- include('./partials/sidebar.ejs') %>
     
     <% const ipMap = [];
@@ -20,7 +21,6 @@
         ipMap[ip] = { ...item, count: 1 };
     }
     }); %>
-
 
     <div class="main-content">
         <h1>Detailed Link</h1>
@@ -45,8 +45,13 @@
                 </div>
             </div>
         <% }); %>
-
-
+        <br>
+        <br>
+        <br>
     </div>
+    <%- include('./partials/bottombar') %>
 </body>
+<script>
+    document.getElementById('links').classList.add('active');
+</script>
 </html>

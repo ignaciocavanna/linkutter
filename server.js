@@ -85,7 +85,7 @@ app.get("/dashboard", async (req, res) => {
   const loggedUser = req.user;
 
   try {
-    if (loggedUser) {
+    if (req.isAuthenticated()) {
 
       const data = await db.query(
       "SELECT l.user_id, l.short_link, l.long_link, ld.ip, ld.username, TO_CHAR(l.created_at, 'DD-MM-YYYY HH24:MI') AS formatted_created, TO_CHAR(ld.opened_at, 'DD-MM-YYYY HH24:MI') AS formatted_open FROM links l INNER JOIN links_data ld ON l.id = ld.link_id WHERE l.user_id = (SELECT id FROM users WHERE email = $1) ORDER BY opened_at DESC",
@@ -247,11 +247,7 @@ app.post("/submit-link", async (req, res) => {
       [user_id, data.short_link, data.long_link]
     );
 
-    res.redirect("/", 200, {
-      long_link: data.long_link,
-      short_link: `ignaciocavanna.com/${data.short_link}`,
-      links: links,
-    });
+    res.redirect("/", 200);
   } catch (error) {
     console.log(error);
   }

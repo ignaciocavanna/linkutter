@@ -8,24 +8,25 @@
     <title>Details</title>
 </head>
 <body>
+    <%- include('./partials/header.ejs') %>
     <%- include('./partials/sidebar.ejs') %>
 
     <div class="main-content">
         <h1>Links</h1>
         <p>Your links</p>
 
-
         <% data.forEach(element => { %>
-        <div class="panel-wrapper">
+        
             <a href="/dashboard/links/<%=element.short_link%>">
-                <div style="border-radius: 10px;" class="panel-head">
-                    <p><img src="/favicon.ico" width="15px" alt="original_link_icon">Kutted link:</p>linkutter.onrender.com/<%=element.short_link%>
-                    
+                <div class="panel-wrapper">
+                    <div style="border-radius: 10px;" class="panel-head">
+                        <p><img src="/favicon.ico" width="15px" alt="original_link_icon">Kutted link:</p>linkutter.onrender.com/<%=element.short_link%>
+                    </div>
                 </div>
             </a>
-        </div>
         <% }); %>
-        </div>
+        <%- include('./partials/bottombar') %>
+    </div>
 </body>
 <script>
     document.getElementById('links').classList.add('active');
